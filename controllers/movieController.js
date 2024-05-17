@@ -1,5 +1,7 @@
 import movieLogic from '../BusinessLogic/movieLogic.js';
+import rabbitQueue from '../BusinessLogic/messageBroker.js';
 const movieService = movieLogic();
+const queueService = rabbitQueue();
 
 export default function (app) {
   app.get("/movies/:id", async (req, res) => {
@@ -14,13 +16,21 @@ export default function (app) {
     }
   });
   
-  app.get("/movies", async (req, res) => {
+  app.post("/movie", async (req, res) => {
     try {
-      const allMovies = await movieService.getAllMovies();
-      res.status(200).json(allMovies);
+      const testitem1 = 'test1';
+      const testitem2 = 'test2';
+      const queueData = {
+        title: 'uploadedvideo',
+        testitem1,
+        testitem2
+      };
+      queueService.sendDataToQueue(JSON.stringify(queueData));
+
+      res.status(201).json(newMovie);
     } catch (error) {
       console.error(error);
-      res.status(500).send("Error fetching movies");
+      res.status(400).send("Error creating movie");
     }
   });
 }
