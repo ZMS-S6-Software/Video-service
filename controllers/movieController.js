@@ -27,7 +27,7 @@ export default function (app) {
       };
       queueService.sendDataToQueue(JSON.stringify(queueData));
 
-      res.status(201).json(newMovie);
+      res.status(201).json(queueData);
     } catch (error) {
       console.error(error);
       res.status(400).send("Error creating movie");

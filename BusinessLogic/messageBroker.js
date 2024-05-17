@@ -2,7 +2,7 @@ import {connect} from 'amqplib';
 
 const connection = await connect(`amqp://${process.env.RABBITMQ_HOST || 'localhost'}`);
 const channel = await connection.createChannel();
-const queue = 'message';
+const queue = 'uploadedvideo';
 
 await channel.assertQueue(queue, { durable:false });
 
